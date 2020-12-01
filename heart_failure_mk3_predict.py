@@ -1,5 +1,6 @@
+#!C:/Users/Asus/AppData/Local/Programs/Python/Python38/python.exe
+import cgi
 import numpy as np
-import pandas as pd
 import ast
 
 class DecisionTreeClassifier(object):
@@ -35,7 +36,7 @@ class DecisionTreeClassifier(object):
         self.trees = ast.literal_eval(contents)
         file.close()
         
-def print_predict(predicted):
+def print_predict(predicted, test_data):
     num = 0
     predict_true = 0
     predict_false = 0
@@ -51,18 +52,53 @@ def print_predict(predicted):
        num += 1
     
     print("The prediction accuracy is: ", predict_true/num * 100 ,"%")
+
+def print_header():
+    print ("""Content-type: text/html\n
+    <!DOCTYPE html>
+    <html>
+    <body>""")
+
+def print_close():
+    print ("""</body>
+    </html>""")
     
 # main    
-df = pd.read_csv('heart_failure_clinical_records_dataset.csv')
+def main():
+    session = cgi.FieldStorage()
+    age = session["age"].value
+    anaemia = session["anemia"].value
+    creatinine = session["creatine"].value
+    diabetes = session["diabetes"].value
+    ejection = session["ejection"].value
+    high_blood = session["high_pressure"].value
+    platelets = session["platelets"].value
+    serum_creatinine = session["serumc"].value
+    serum_sodium = session["serums"].value
+    sex = session["gender"].value
+    smoking = session["smoking"].value
+    time = session["time"].value
+    
+    lists = [age, anaemia, creatinine, diabetes, ejection, high_blood, platelets, serum_creatinine, serum_sodium, sex, smoking, time]
+    test_data = [float(i) for i in lists]
+    test_data = [test_data]
+    test_data = np.array(test_data)
+    test_features = test_data[:, [0,4,6,7,8]]
+    
+    clf = DecisionTreeClassifier(max_depth=6)
+    
+    clf.read_tree()
+    
+    predicted = clf.predict(test_features)
+    
+    if predicted[0]:
+        predicted = "High Risk"
+    else:
+        predicted = "Low Risk"
 
-test_features = df.iloc[90:, [0,4,6,7,8]].to_numpy()
-test_targets = df.iloc[90:,-1].to_numpy()
-test_data = df.iloc[90:].to_numpy()
+    # predicted = cgi.FieldStorage() predicted["x"].value
+    print_header()
+    print("<p>" + predicted + "</p>")
+    print_close()
 
-clf = DecisionTreeClassifier(max_depth=6)
-
-clf.read_tree()
-
-predicted = clf.predict(test_features)
-
-print_predict(predicted)
+main()

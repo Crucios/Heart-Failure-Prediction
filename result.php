@@ -1,5 +1,6 @@
 <?php
 $title = 'Prediction Results';
+session_start();
 require_once 'include/header.php';
 ?>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -21,8 +22,10 @@ require_once 'include/header.php';
         </div>
     </nav>
     <h1>Results</h1>
+    <div id="result">
+        <?php echo $_GET["result"] ?>
+    </div>
     <a href="home.php" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Back to Home</a>
-
 <?php
 require_once 'include/footer.php';
 ?>

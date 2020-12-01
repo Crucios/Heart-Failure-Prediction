@@ -34,7 +34,7 @@ require_once 'include/header.php';
                 <h2>Upload Testing</h2>
                 Select CSV to upload:<br>
                 <input type="file" name="fileToUpload" id="fileToUpload"><br><br>
-                <input type="submit" value="Upload CSV" name="submit">
+                <input type="submit" value="Upload CSV" name="submit" id="submit">
             </div>
         </div>
     </div>

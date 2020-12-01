@@ -1,3 +1,4 @@
+#!C:/Users/Asus/AppData/Local/Programs/Python/Python38/python.exe
 from pprint import pprint
 import math
 import numpy as np
@@ -146,7 +147,7 @@ class DecisionTreeClassifier(object):
         file.close()
 
 # main
-df = pd.read_csv('heart_failure_clinical_records_dataset.csv')
+df = pd.read_csv('uploadstesting/heart_failure_clinical_records_dataset.csv')
 
 header = ['age', 'anaemia', 'creatinine_phosphokinase', 'diabetes',
        'ejection_fraction', 'high_blood_pressure', 'platelets',
@@ -154,10 +155,18 @@ header = ['age', 'anaemia', 'creatinine_phosphokinase', 'diabetes',
        'DEATH_EVENT']
 header = [0,4,6,7,8]
 
-x = df.iloc[:209, [0,4,6,7,8]].to_numpy()    #age, ejection_fraction, serum_creatinine
-y = df.iloc[:209,-1].to_numpy()
+print(round(len(df)*0.7))
+
+n_training = round(len(df)*70/100)
+n_testing = len(df) - n_training
+
+x = df.iloc[:n_training, [0,4,6,7,8]].to_numpy()    #age, ejection_fraction, serum_creatinine
+y = df.iloc[:n_training,-1].to_numpy()
 
 clf = DecisionTreeClassifier(max_depth=6)
 m = clf.fit(x, y)
 
 clf.write_tree(m)
+
+print("Content-Type: text/html")
+print()
