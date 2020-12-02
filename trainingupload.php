@@ -34,7 +34,9 @@ require_once 'include/header.php';
             <h2>Upload Training</h2>
 
                 Select CSV to upload:<br>
-                <input type="file" name="fileToUpload" id="fileToUpload"><br><br>
+                <input type="file" name="fileToUpload" id="fileToUpload"><br>
+                <label for="quantity">How many percentage for Training data?(50-90)</label>
+                <input type="number" id="quantity" name="quantity" min="50" max="90"> % <br><br>
                 <input type="submit" value="Upload CSV" name="submit">
             </div>
         </div>

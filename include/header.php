@@ -26,7 +26,7 @@
             margin: left;
             padding-top: 10px;
             padding-left: 30px;
-            width: 25%;
+            width: 40%;
             text-align: justify;
         }
         .myDiv4 {
