@@ -1,4 +1,5 @@
 #!C:/Users/Asus/AppData/Local/Programs/Python/Python38/python.exe
+import cgi
 from pprint import pprint
 import math
 import numpy as np
@@ -209,7 +210,9 @@ header = ['age', 'anaemia', 'creatinine_phosphokinase', 'diabetes',
        'DEATH_EVENT']
 header = [0,4,6,7,8]
 
-n_training = round(len(df)*70/100)
+session = cgi.FieldStorage()
+percent_train = int(session["n_train"].value)
+n_training = int(len(df)*percent_train/100)
 n_testing = len(df) - n_training
 
 x = df.iloc[:n_training, [0,4,6,7,8]].to_numpy()    #age, ejection_fraction, serum_creatinine

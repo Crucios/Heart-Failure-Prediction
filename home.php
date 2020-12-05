@@ -28,7 +28,13 @@ require_once 'include/header.php';
     </nav>
     
     <div class="myDiv4">
-        <h1>Heart Failure Prediction</h1><br><br>
+        <div>
+            <h1>Heart Failure Prediction</h1><br><br>
+            <h3>
+                <span>Prediction Rate: &nbsp;</span>
+                <span id="prediction_rate"></span>
+            </h3>
+        </div>
         <h2>Facts About Heart Failures</h2><br>
         <div class="myDiv5">
         <h3>Ejection Fractions</h3>
