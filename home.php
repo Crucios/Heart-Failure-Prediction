@@ -1,6 +1,7 @@
 <?php
 $title = 'Heart Failure Prediction';
 require_once 'include/header.php';
+require_once 'dbconnect.php';
 ?>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,12 +30,20 @@ require_once 'include/header.php';
     
     <div class="myDiv4">
         <div>
-            <h1>Heart Failure Prediction</h1><br><br>
+            <h1>Heart Failure Prediction</h1>
             <h3>
                 <span>Prediction Rate: &nbsp;</span>
                 <span id="prediction_rate"></span>
+                <?php 
+                $query = "SELECT predict FROM prediction_rate";
+                $result = mysqli_query($connect, $query);
+                while($row = mysqli_fetch_array($result)){
+                echo "$row[predict] %";
+                }
+                ?>
             </h3>
         </div>
+        <br>
         <h2>Facts About Heart Failures</h2><br>
         <div class="myDiv5">
         <h3>Ejection Fractions</h3>
