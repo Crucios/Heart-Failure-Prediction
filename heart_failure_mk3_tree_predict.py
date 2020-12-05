@@ -244,6 +244,7 @@ mydb.commit()
 sql = "INSERT INTO datas (age, anaemia, creatinine_phosphokinase, diabetes, ejection_fraction, high_blood_pressure, platelets, serum_creatinine, serum_sodium, sex, smoking, time, DEATH_EVENT) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 val = []
 num = 0
+
 # get prediction rate
 predict_true = 0
 predict_false = 0
