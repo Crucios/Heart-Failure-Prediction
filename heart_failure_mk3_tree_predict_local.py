@@ -1,11 +1,9 @@
 #!C:/Users/Asus/AppData/Local/Programs/Python/Python38/python.exe
-import cgi
 from pprint import pprint
 import math
 import numpy as np
 import pandas as pd
 import ast
-import mysql.connector
 
 def entropy_func(c, n):
     return -(c*1.0/n)*math.log(c*1.0/n, 2)
@@ -152,7 +150,7 @@ def formatNumber(num):
     return num
 
 # main
-df = pd.read_csv('uploadstesting/heart_failure_clinical_records_dataset.csv')
+df = pd.read_csv('uploadstraining/heart_failure_clinical_records_dataset.csv')
 
 header = ['age', 'anaemia', 'creatinine_phosphokinase', 'diabetes',
        'ejection_fraction', 'high_blood_pressure', 'platelets',
@@ -160,8 +158,7 @@ header = ['age', 'anaemia', 'creatinine_phosphokinase', 'diabetes',
        'DEATH_EVENT']
 header = [0,2,5,7]
 
-session = cgi.FieldStorage()
-percent_train = int(session["n_train"].value)
+percent_train = 70
 n_training = int(len(df)*percent_train/100)
 n_testing = len(df) - n_training
 
@@ -171,27 +168,11 @@ y = df.iloc[:n_training,-1].to_numpy()
 clf = DecisionTreeClassifier(max_depth=6)
 m = clf.fit(x, y)
 
-test_features = df.iloc[n_testing:, [0,2,5,7]].to_numpy()
-test_data = df.iloc[n_testing:].to_numpy()
+test_features = df.iloc[-n_testing:, [0,2,5,7]].to_numpy()
+test_data = df.iloc[-n_testing:].to_numpy()
 
 predicted = clf.predict(test_features)
 
-# upload to database
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="",
-  database="data_mining"
-)
-
-# empty table
-mycursor = mydb.cursor()
-sql = "TRUNCATE TABLE datas;"
-mycursor.execute(sql)
-mydb.commit()
-
-# insert data
-sql = "INSERT INTO datas (age, anaemia, creatinine_phosphokinase, diabetes, ejection_fraction, high_blood_pressure, platelets, serum_creatinine, serum_sodium, sex, smoking, time, DEATH_EVENT) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 val = []
 num = 0
 
@@ -214,21 +195,12 @@ val = val.tolist()
 for i in range (len(val)):
     for j in range(len(val[i])):
         val[i][j] = formatNumber(val[i][j])
-mycursor.executemany(sql, val)
-mydb.commit()
-
-# empty prediction
-sql = "TRUNCATE TABLE prediction_rate;"
-mycursor.execute(sql)
-mydb.commit()
 
 # insert prediction
 sql = "INSERT INTO prediction_rate (predict) VALUES (%s)"
 predict_rate = round(predict_rate, 2)
 val = (str(predict_rate))
-mycursor.execute(sql, (val,))
-mydb.commit()
-
+print("Prediction rate: " + str(predict_rate))
 clf.write_tree(m)
 
 print("Content-Type: text/html")

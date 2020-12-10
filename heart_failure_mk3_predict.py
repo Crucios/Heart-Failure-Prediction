@@ -83,7 +83,7 @@ def main():
     test_data = [float(i) for i in lists]
     test_data = [test_data]
     test_data = np.array(test_data)
-    test_features = test_data[:, [0,4,6,7,8]]
+    test_features = test_data[:, [0,2,5,7]]
     
     clf = DecisionTreeClassifier(max_depth=6)
     

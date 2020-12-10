@@ -6,27 +6,15 @@ import pandas as pd
 import ast
 
 def entropy_func(c, n):
-    """
-    The math formula
-    """
     return -(c*1.0/n)*math.log(c*1.0/n, 2)
 
 def entropy_cal(c1, c2):
-    """
-    Returns entropy of a group of data
-    c1: count of one class
-    c2: count of another class
-    """
     if c1== 0 or c2 == 0:  # when there is only one class in the group, entropy is 0
         return 0
     return entropy_func(c1, c1+c2) + entropy_func(c2, c1+c2)
 
 # get the entropy of one big circle showing above
 def entropy_of_one_division(division): 
-    """
-    Returns entropy of a divided group of data
-    Data may have multiple classes
-    """
     s = 0
     n = len(division)
     classes = set(division)
@@ -38,10 +26,6 @@ def entropy_of_one_division(division):
 
 # The whole entropy of two big circles combined
 def get_entropy(y_predict, y_real):
-    """
-    Returns entropy of a split
-    y_predict is the split decision, True/Fasle, and y_true can be multi class
-    """
     if len(y_predict) != len(y_real):
         print('They have to be the same length')
         return None
@@ -57,10 +41,6 @@ class DecisionTreeClassifier(object):
         self.max_depth = max_depth
         
     def find_best_split(self, col, y):
-        """
-        col: the column we split on
-        y: target var
-        """
         min_entropy = 10    
         n = len(y)
         for value in set(col):  # iterating through each value in the column
@@ -72,10 +52,6 @@ class DecisionTreeClassifier(object):
         return min_entropy, cutoff
         
         def find_best_split_of_all(self, x, y):
-            """
-            Find the best split from all features
-            returns: the column to split on, the cutoff value, and the actual entropy
-            """
             col = None
             min_entropy = 1
             cutoff = None
@@ -90,10 +66,6 @@ class DecisionTreeClassifier(object):
             return col, cutoff, min_entropy
     
     def find_best_split_of_all(self, x, y):
-        """
-        Find the best split from all features
-        returns: the column to split on, the cutoff value, and the actual entropy
-        """
         col = None
         min_entropy = 1
         cutoff = None
@@ -108,12 +80,7 @@ class DecisionTreeClassifier(object):
         return col, cutoff, min_entropy
 
     def fit(self, x, y, par_node={}, depth=0):
-        """
-        x: Feature set
-        y: target variable
-        par_node: will be the tree generated for this x and y. 
-        depth: the depth of the current layer
-        """
+
         if par_node is None:   # base case 1: tree stops at previous level
             return None
         elif len(y) == 0:   # base case 2: no data in this group
@@ -153,14 +120,14 @@ header = ['age', 'anaemia', 'creatinine_phosphokinase', 'diabetes',
        'ejection_fraction', 'high_blood_pressure', 'platelets',
        'serum_creatinine', 'serum_sodium', 'sex', 'smoking', 'time',
        'DEATH_EVENT']
-header = [0,4,6,7,8]
+header = [0,2,5,7]
 
 print(round(len(df)*0.7))
 
 n_training = round(len(df)*70/100)
 n_testing = len(df) - n_training
 
-x = df.iloc[:n_training, [0,4,6,7,8]].to_numpy()    #age, ejection_fraction, serum_creatinine
+x = df.iloc[:n_training, [0,2,5,7]].to_numpy()    #age, creatinine_phosphokinase, high_blood_pressure, serum_creatinine
 y = df.iloc[:n_training,-1].to_numpy()
 
 clf = DecisionTreeClassifier(max_depth=6)

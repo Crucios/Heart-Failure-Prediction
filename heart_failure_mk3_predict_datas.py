@@ -46,7 +46,7 @@ def formatNumber(num):
 # main    
 df = pd.read_csv('uploadstesting/heart_failure_clinical_records_dataset.csv')
 
-test_features = df.iloc[:, [0,4,6,7,8]].to_numpy()
+test_features = df.iloc[:, [0,2,5,7]].to_numpy()
 test_data = df.iloc[:].to_numpy()
 clf = DecisionTreeClassifier(max_depth=6)
 
