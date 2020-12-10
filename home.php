@@ -89,7 +89,7 @@ require_once 'include/footer.php';
 <script type='text/javascript'>
     $(document).ready(function(){
         $.ajax({
-            url: \"heart_failure_pandas_profiling.py\",
+            url: "heart_failure_pandas_profiling.py",
             context: document.body
             }).done(function() {
                 alert('Keluar tabel e');
