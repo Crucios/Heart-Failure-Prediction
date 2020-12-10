@@ -42,6 +42,7 @@ require_once 'dbconnect.php';
                 }
                 ?>
             </h3>
+            <img id="correlation"></img>
         </div>
         <br>
         <h2>Facts About Heart Failures</h2><br>
@@ -84,3 +85,16 @@ require_once 'dbconnect.php';
 <?php
 require_once 'include/footer.php';
 ?>
+
+<script type='text/javascript'>
+    $(document).ready(function(){
+        $.ajax({
+            url: \"heart_failure_pandas_profiling.py\",
+            context: document.body
+            }).done(function() {
+                alert('Keluar tabel e');
+                $("#correlation").attr('src','pearson_correlation.png');
+            }
+        });
+    });
+</script>

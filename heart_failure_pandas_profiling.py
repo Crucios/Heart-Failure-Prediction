@@ -17,3 +17,6 @@ plt.figure(figsize=(15,15))
 sns.heatmap(df.corr(),annot=True)
 plt.show()
 plt.savefig('pearson_correlation.png')
+
+print("Content-Type: text/html")
+print()
