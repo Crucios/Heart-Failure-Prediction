@@ -42,7 +42,7 @@ require_once 'dbconnect.php';
                 }
                 ?>
             </h3>
-            <img id="correlation" src="pearson_correlation.png"></img>
+            <img id="correlation" src="pearson_correlation.png" style="width: 90%; height: auto;"></img>
         </div>
         <br>
         <h2>Facts About Heart Failures</h2><br>
