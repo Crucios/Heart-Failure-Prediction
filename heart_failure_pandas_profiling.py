@@ -1,5 +1,4 @@
-#!C:\Users\Asus\AppData\Local\Programs\Python\Python38\python.exe
-import os
+#!C:/Users/Asus/AppData/Local/Programs/Python/Python38/python.exe
 import numpy as np
 import pandas as pd
 import seaborn as sns
