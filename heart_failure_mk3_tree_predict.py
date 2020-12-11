@@ -11,7 +11,7 @@ def entropy_func(c, n):
     return -(c*1.0/n)*math.log(c*1.0/n, 2)
 
 def entropy_cal(c1, c2):
-    if c1== 0 or c2 == 0:  # when there is only one class in the group, entropy is 0
+    if c1== 0 or c2 == 0:  
         return 0
     return entropy_func(c1, c1+c2) + entropy_func(c2, c1+c2)
 
@@ -19,9 +19,9 @@ def entropy_of_one_division(division):
     s = 0
     n = len(division)
     classes = set(division)
-    for c in classes:   # for each class, get entropy
+    for c in classes:  
         n_c = sum(division==c)
-        e = n_c*1.0/n * entropy_cal(sum(division==c), sum(division!=c)) # weighted avg
+        e = n_c*1.0/n * entropy_cal(sum(division==c), sum(division!=c))
         s += e
     return s, n
 
@@ -30,9 +30,9 @@ def get_entropy(y_predict, y_real):
         print('They have to be the same length')
         return None
     n = len(y_real)
-    s_true, n_true = entropy_of_one_division(y_real[y_predict]) # left hand side entropy
-    s_false, n_false = entropy_of_one_division(y_real[~y_predict]) # right hand side entropy
-    s = n_true*1.0/n * s_true + n_false*1.0/n * s_false # overall entropy, again weighted average
+    s_true, n_true = entropy_of_one_division(y_real[y_predict]) 
+    s_false, n_false = entropy_of_one_division(y_real[~y_predict]) 
+    s = n_true*1.0/n * s_true + n_false*1.0/n * s_false 
     return s
 
 class DecisionTreeClassifier(object):
@@ -43,10 +43,10 @@ class DecisionTreeClassifier(object):
     def find_best_split(self, col, y):
         min_entropy = 10    
         n = len(y)
-        for value in set(col):  # iterating through each value in the column
-            y_predict = col < value  # separate y into 2 groups
-            my_entropy = get_entropy(y_predict, y)  # get entropy of this split
-            if my_entropy <= min_entropy:  # check if it's the best one so far
+        for value in set(col): 
+            y_predict = col < value 
+            my_entropy = get_entropy(y_predict, y)  
+            if my_entropy <= min_entropy: 
                 min_entropy = my_entropy
                 cutoff = value
         return min_entropy, cutoff
@@ -55,26 +55,26 @@ class DecisionTreeClassifier(object):
         col = None
         min_entropy = 1
         cutoff = None
-        for i, c in enumerate(x.T):  # iterating through each feature
-            entropy, cur_cutoff = self.find_best_split(c, y)  # find the best split of that feature
-            if entropy == 0:    # find the first perfect cutoff. Stop Iterating
+        for i, c in enumerate(x.T):  
+            entropy, cur_cutoff = self.find_best_split(c, y) 
+            if entropy == 0:    # find the first perfect cutoff
                 return i, cur_cutoff, entropy
-            elif entropy <= min_entropy:  # check if it's best so far
+            elif entropy <= min_entropy: 
                 min_entropy = entropy
                 col = i
                 cutoff = cur_cutoff
         return col, cutoff, min_entropy
 
     def fit(self, x, y, par_node={}, depth=0):
-        if par_node is None:   # base case 1: tree stops at previous level
+        if par_node is None:  
             return None
-        elif len(y) == 0:   # base case 2: no data in this group
+        elif len(y) == 0:  
             return None
-        elif self.all_same(y):   # base case 3: all y is the same in this group
+        elif self.all_same(y):  
             return {'val':y[0]}
-        elif depth >= self.max_depth:   # base case 4: max depth reached 
+        elif depth >= self.max_depth:  
             return None
-        else:   # Recursively generate trees! 
+        else:   # Recursively generate trees
             # find one split given an information gain 
             col, cutoff, entropy = self.find_best_split_of_all(x, y)   
             y_left = y[x[:, col] < cutoff]  # left hand side data
@@ -86,7 +86,7 @@ class DecisionTreeClassifier(object):
             par_node['left'] = self.fit(x[x[:, col] < cutoff], y_left, {}, depth+1)   
             # right hand side trees
             par_node['right'] = self.fit(x[x[:, col] >= cutoff], y_right, {}, depth+1)  
-            self.depth += 1   # increase the depth since we call fit once
+            self.depth += 1   # increment depth
             self.trees = par_node  
             return par_node
     
@@ -98,7 +98,7 @@ class DecisionTreeClassifier(object):
 
     def _get_prediction(self, row):
         cur_layer = self.trees  # get the tree we build in training
-        while cur_layer.get('cutoff'):   # if not leaf node
+        while cur_layer.get('cutoff'):  
             if row[cur_layer['index_col']] < cur_layer['cutoff']:   # get the direction 
                 if cur_layer['left'] is None:
                     return cur_layer.get('val')
@@ -109,7 +109,7 @@ class DecisionTreeClassifier(object):
                     return cur_layer.get('val')
                 else:
                     cur_layer = cur_layer['right']
-        else:   # if leaf node, return value
+        else:
             return cur_layer.get('val')
         
     def read_tree(self):
@@ -161,7 +161,7 @@ header = ['age', 'anaemia', 'creatinine_phosphokinase', 'diabetes',
 header = [0,2,5,7]
 
 session = cgi.FieldStorage()
-percent_train = int(session["n_train"].value)
+percent_train = int(session["n_train"].value)1
 n_training = int(len(df)*percent_train/100)
 n_testing = len(df) - n_training
 
