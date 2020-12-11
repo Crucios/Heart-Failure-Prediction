@@ -165,13 +165,13 @@ percent_train = int(session["n_train"].value)1
 n_training = int(len(df)*percent_train/100)
 n_testing = len(df) - n_training
 
-x = df.iloc[:n_training, [0,2,5,7]].to_numpy()    #age, creatinine_phosphokinase, high_blood_pressure, serum_creatinine
+x = df.iloc[:n_training, [0,4,7,8]].to_numpy()    #age, creatinine_phosphokinase, high_blood_pressure, serum_creatinine
 y = df.iloc[:n_training,-1].to_numpy()
 
 clf = DecisionTreeClassifier(max_depth=6)
 m = clf.fit(x, y)
 
-test_features = df.iloc[n_testing:, [0,2,5,7]].to_numpy()
+test_features = df.iloc[n_testing:, [0,4,7,8]].to_numpy()
 test_data = df.iloc[n_testing:].to_numpy()
 
 predicted = clf.predict(test_features)
